@@ -56,14 +56,19 @@ app.get('/', (req, res) => {
 // create post routs
 app.post('/api/users', async (req, res) => {
   const userInput = req.body.username
+  console.log(userInput)
   if (!userInput || userInput === '') {
     res.json({ error: 'invalid input - empty username is not allowed' })
   }
+  console.log(userInput, 'is OK')
   try {
+    console.log('inside try')
     const newUser = new User({
       username: userInput
     })
+    console.log('user created OK, will try to save')
     await newUser.save()
+    console.log('user saved')
     res.json({ username: newUser.username, _id: newUser._id })
   } catch (err) {
     console.error(err)
