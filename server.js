@@ -29,6 +29,11 @@ const exerciseSchema = new Schema({
   date: { type: String, required: true },
   userId: { type: String, required: true }
 })
+
+// create mongoose models for user and exercise
+const User = mongoose.model('User', userSchema)
+const Exercise = mongoose.model('Exercise', exerciseSchema)
+
 /*
 Log res.json structure:
 {
@@ -51,7 +56,19 @@ app.get('/', (req, res) => {
 // create post routs
 app.post('/api/users', async (req, res) => {
   const userInput = req.body.username
-  res.json({ username: userInput })
+  if (!userInput || userInput === '') {
+    res.json({ error: 'invalid input - empty username is not allowed' })
+  }
+  try {
+    const newUser = new User({
+      username: userInput
+    })
+    await newUser.save()
+    res.json({ username: newUser.username, _id: newUser._id })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json('Server Error')
+  }
 })
 // res.json({username & id})
 
