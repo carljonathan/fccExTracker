@@ -1,9 +1,9 @@
+require('dotenv').config()
 const express = require('express')
-const app = express()
 const cors = require('cors')
+const app = express()
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-require('dotenv').config()
 
 // connect to mongoDN
 mongoose.connect(process.env.MONGI_URI)
@@ -66,6 +66,7 @@ app.post('/api/users', async (req, res) => {
     const newUser = new User({
       username: userInput
     })
+    console.log('newUSer:', newUser)
     console.log('user created OK, will try to save')
     await newUser.save()
     console.log('user saved')
