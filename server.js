@@ -61,20 +61,20 @@ app.post('/api/users', async (req, res) => {
     res.json({ error: 'invalid input - empty username is not allowed' })
   }
   console.log(userInput, 'is OK')
-  //try {
-  console.log('inside try')
-  const newUser = new User({
-    username: userInput
-  })
-  console.log('newUSer:', newUser)
-  console.log('user created OK, will try to save')
-  await newUser.save()
-  console.log('user saved')
-  res.json({ username: newUser.username, _id: newUser._id })
-  /*} catch (err) {
+  try {
+    console.log('inside try')
+    const newUser = new User({
+      username: userInput
+    })
+    console.log('newUSer:', newUser)
+    console.log('user created OK, will try to save')
+    await newUser.save()
+    console.log('user saved')
+    res.json({ username: newUser.username, _id: newUser._id })
+  } catch (err) {
     console.error(err)
     res.status(500).json('Server Error')
-  }*/
+  }
 })
 // res.json({username & id})
 
