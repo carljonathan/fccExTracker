@@ -73,8 +73,8 @@ app.post('/api/users', async (req, res) => {
   res.json({ username: newUser.username, _id: newUser._id })
   /*} catch (err) {
     console.error(err)
-    res.status(500).json('Server Error')*/
-  }
+    res.status(500).json('Server Error')
+  }*/
 })
 // res.json({username & id})
 
