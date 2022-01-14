@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
 // connect to mongoDN
-mongoose.connect(process.env.MONGI_URI).catch(error => console.log(error))
+mongoose.connect(process.env.MONGI_URI)
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
