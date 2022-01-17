@@ -78,13 +78,19 @@ app.post('/api/users', async (req, res) => {
     res.status(500).json('Server Error')
   }
 })
-// res.json({username & id})
 
-// POST/api/users/:_id/exercises
-// ta form data med description och duration. Date valbart, om inte angivet sätt dagens datum med Date (använd method toDateString() för att formatera datumet)
+app.post('/api/users/:_id/excercises', async (req, res) => {
+  // get user input
+  const userId = req.form.:_id // CHECK THIS
+  const userDescr = req.form.description // make sure string
+  const duration = req.form.duration // make sure number
+  const userDate = req.form.date // optional, set to current date if not submitted
+  // ta form data med description och duration. Date valbart, om inte angivet sätt dagens datum med Date (använd method toDateString() för att formatera datumet)
+
+
 // res.json object med user object där exercisefield är tillagt
-// description ska vara en string
-// duration ska vara ett nummer
+
+})
 
 // create get routs
 // GET /api/users
