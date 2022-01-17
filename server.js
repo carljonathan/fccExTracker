@@ -54,23 +54,25 @@ app.get('/', (req, res) => {
 });
 
 // create post routs
+// route to create a new user
 app.post('/api/users', async (req, res) => {
+  // get user input from form
   const userInput = req.body.username
-  console.log(userInput)
+  // make sure user has entered a valid username, i.e. not blank and not nothing
   if (!userInput || userInput === '') {
     res.json({ error: 'invalid input - empty username is not allowed' })
   }
-  console.log(userInput, 'is OK')
+  // if valid name, try to create a user in the db
   try {
-    console.log('inside try')
+    // create new user document
     const newUser = new User({
       username: userInput
     })
-    console.log('newUSer:', newUser)
-    console.log('user created OK, will try to save')
+    // save new doc
     await newUser.save()
-    console.log('user saved')
+    // retrun new user details as json
     res.json({ username: newUser.username, _id: newUser._id })
+    // catch and log error
   } catch (err) {
     console.error(err)
     res.status(500).json('Server Error')
