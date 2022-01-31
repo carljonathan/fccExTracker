@@ -106,18 +106,23 @@ app.post('/api/users/:_id/excercises', async (req, res) => {
 
 // create get routs
 app.get('/api/users', async (req, res) => {
+  console.log('outside try catch')
   try {
     // find all users in db
+    console.log('trying to fetch from db')
     await User.find({}, (err, users) => {
       // return error if needed
-      if (err) return console.error('error')
+      if (err) return console.error('error with db query')
       // array to hold result
       const userList = []
       // loop over each result in the db call
+      console.log('before forEach loop')
       users.forEach((user) => {
         // push each result as object to array
+        console.log('before array.push')
         userList.push({ username: user.username, _id: user._id })
       })
+      console.log('before res.send')
       // return array
       res.send(userList)
     })
