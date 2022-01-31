@@ -110,22 +110,24 @@ app.get('/api/users', async (req, res) => {
   try {
     // find all users in db
     console.log('trying to fetch from db')
-    await User.find({}, (err, users) => {
+    const results = await User.find({}, (err) => {
       // return error if needed
       if (err) return console.error('error with db query')
-      // array to hold result
-      const userList = []
-      // loop over each result in the db call
-      console.log('before forEach loop')
-      users.forEach((user) => {
-        // push each result as object to array
-        console.log('before array.push')
-        userList.push({ username: user.username, _id: user._id })
-      })
-      console.log('before res.send')
-      // return array
-      res.send(userList)
     })
+    console.log(results)
+    // array to hold result
+    const userList = []
+    // loop over each result in the db call
+    console.log('before forEach loop')
+    results.forEach((result) => {
+      // push each result as object to array
+      console.log('before array.push')
+      userList.push({ username: result.username, _id: result._id })
+    })
+    console.log('before res.send')
+    // return array
+    res.send(userList)
+    
   // catch error
   } catch (err) {
     console.error(err)
