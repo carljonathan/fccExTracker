@@ -85,8 +85,11 @@ app.post('/api/users/:_id/excercises', async (req, res) => {
   const userDescr = req.body.description
   let duration = req.body.duration
   let userDate = req.body.date // optional, set to current date if not submitted
-  let formattedDate
-  // ta form data med description och duration. Date valbart, om inte angivet sätt dagens datum med Date (använd method toDateString() för att formatera datumet)
+  
+  // TODO GET USERNAME
+  const findUser = await User.findOneAndRemove({ _id: userId })
+
+  // convert duration to number
   duration = Number(duration)
 
   // make sure dscription is string and duration is number
@@ -94,11 +97,20 @@ app.post('/api/users/:_id/excercises', async (req, res) => {
     console.error('workout description must be a string and workout duration must be a number.')
   }
 
-  // check if date is entered, else assigne todays date + format according to requirements
+  // check if date is not entered and assign todays date if so
   if (userDate === '') {
-    userDate = new Date()
-    formattedDate = userDate.toDateString()
+    userDate = Date.now()
   }
+  // format user date to readable format
+  const formattedDate = userDate.toDateString()
+  const entry = new Exercise({
+    username: findUser.username,
+    description: userDescr,
+    duration: duration,
+    date: formattedDate,
+    userId: userId
+  })
+  await 
 
 // res.json object med user object där exercisefield är tillagt
 
