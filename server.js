@@ -81,21 +81,52 @@ app.post('/api/users', async (req, res) => {
 
 app.post('/api/users/:_id/excercises', async (req, res) => {
   // get user input
-  const userId = req.form.:_id // CHECK THIS
-  const userDescr = req.form.description // make sure string
-  const duration = req.form.duration // make sure number
-  const userDate = req.form.date // optional, set to current date if not submitted
+  const userId = req.params._id // ???
+  const userDescr = req.body.description
+  let duration = req.body.duration
+  let userDate = req.body.date // optional, set to current date if not submitted
+  let formattedDate
   // ta form data med description och duration. Date valbart, om inte angivet sätt dagens datum med Date (använd method toDateString() för att formatera datumet)
+  duration = Number(duration)
 
+  // make sure dscription is string and duration is number
+  if (typeof userDescr !== 'string' || typeof duration !== 'number') {
+    console.error('workout description must be a string and workout duration must be a number.')
+  }
+
+  // check if date is entered, else assigne todays date + format according to requirements
+  if (userDate === '') {
+    userDate = new Date()
+    formattedDate = userDate.toDateString()
+  }
 
 // res.json object med user object där exercisefield är tillagt
 
 })
 
 // create get routs
-// GET /api/users
-// res.json array eller res.send array.
-// array innehåller json objects med username och id
+app.get('/api/users', async (req, res) => {
+  try {
+    // find all users in db
+    await User.find({}, (err, users) => {
+      // return error if needed
+      if (err) return console.error('error')
+      // array to hold result
+      const userList = []
+      // loop over each result in the db call
+      users.forEach((user) => {
+        // push each result as object to array
+        userList.push({ username: user.username, _id: user._id })
+      })
+      // return array
+      res.send(userList)
+    })
+  // catch error
+  } catch (err) {
+    console.error(err)
+    res.status(500).json('server error')
+  }
+})
 
 // GET /api/users/:_id/logs
 // res.json svar med alla träningspass för användaren, med count som visar antalet träningspass registrerade för användaren
