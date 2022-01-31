@@ -110,10 +110,7 @@ app.get('/api/users', async (req, res) => {
   try {
     // find all users in db
     console.log('trying to fetch from db')
-    const results = await User.find({}, (err) => {
-      // return error if needed
-      if (err) return console.error('error with db query')
-    })
+    const results = await User.find()
     console.log(results)
     // array to hold result
     const userList = []
