@@ -107,7 +107,7 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
   } else {
     newDate = new Date(userDate)
   }
-  console.log('last stop before error: ', newDate)
+  console.log('last stop before error: ', newDate, `; type ${typeof newDate}`)
   
   // format user date to readable format
   const formattedDate = newDate.toDateString()
