@@ -101,8 +101,10 @@ app.post('/api/users/:_id/excercises', async (req, res) => {
   if (userDate === '') {
     userDate = Date.now()
   }
+  
   // format user date to readable format
   const formattedDate = userDate.toDateString()
+  /*
   const entry = new Exercise({
     username: findUser.username,
     description: userDescr,
@@ -110,7 +112,9 @@ app.post('/api/users/:_id/excercises', async (req, res) => {
     date: formattedDate,
     userId: userId
   })
-  await 
+  await entry.save()
+  */
+  res.json({ username: findUser.username, description: userDescr, duration: duration, date: formattedDate, userId: userId })
 
 // res.json object med user object där exercisefield är tillagt
 
