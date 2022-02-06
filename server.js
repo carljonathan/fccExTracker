@@ -86,6 +86,8 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
   let duration = req.body.duration
   const userDate = req.body.date // optional, set to current date if not submitted
   let newDate;
+
+  console.log('user date: ', userDate)
   
   // TODO GET USERNAME
   const findUser = await User.findOneAndRemove({ _id: userId })
