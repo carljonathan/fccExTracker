@@ -84,10 +84,8 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
   const userId = req.params._id // ???
   const userDescr = req.body.description
   let duration = req.body.duration
-  const userDate = req.body.date // optional, set to current date if not submitted
-  let newDate;
+  let userDate = req.body.date // optional, set to current date if not submitted
 
-  console.log('user date: ', userDate)
   
   // TODO GET USERNAME
   const findUser = await User.findOneAndRemove({ _id: userId })
@@ -102,11 +100,10 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
 
   // check if date is not entered and assign todays date if so
   if (userDate === '') {
-    newDate = Date.now()
-    console.log('empty date: ', newDate)
-  } else {
-    newDate = new Date(userDate)
+    userDate = Date.now()
   }
+  const newDate = new Date(userDate)
+
   console.log('last stop before error: ', newDate, `; type ${typeof newDate}`)
   
   // format user date to readable format
