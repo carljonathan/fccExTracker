@@ -81,7 +81,7 @@ app.post('/api/users', async (req, res) => {
 
 app.post('/api/users/:_id/exercises', async (req, res) => {
   // get user input
-  const userId = req.params._id // ???
+  const userId = req.params._id
   const userDescr = req.body.description
   let duration = req.body.duration
   let userDate = req.body.date // optional, set to current date if not submitted
@@ -104,11 +104,9 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
   }
   const newDate = new Date(userDate)
 
-  console.log('last stop before error: ', newDate, `; type ${typeof newDate}`)
-  
   // format user date to readable format
   const formattedDate = newDate.toDateString()
-  /*
+  
   const entry = new Exercise({
     username: findUser.username,
     description: userDescr,
@@ -117,8 +115,8 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
     userId: userId
   })
   await entry.save()
-  */
-  res.json({ username: findUser.username, description: userDescr, duration: duration, date: formattedDate, userId: userId })
+  
+  res.json(entry)
 
 // res.json object med user object där exercisefield är tillagt
 
