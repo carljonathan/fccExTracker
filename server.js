@@ -88,7 +88,7 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
 
   
   // TODO GET USERNAME
-  const findUser = await User.findOneAndRemove({ _id: userId })
+  const findUser = await User.findOne({ _id: userId })
 
   // convert duration to number
   duration = Number(duration)
