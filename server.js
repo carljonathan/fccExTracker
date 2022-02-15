@@ -87,7 +87,7 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
   let userDate = req.body.date // optional, set to current date if not submitted
 
   
-  // TODO GET USERNAME
+  // get username
   const findUser = await User.findOne({ _id: userId })
 
   // convert duration to number
@@ -102,11 +102,14 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
   if (userDate === '') {
     userDate = Date.now()
   }
+
+  // create date object
   const newDate = new Date(userDate)
 
   // format user date to readable format
   const formattedDate = newDate.toDateString()
   
+  // create new doc with values
   const entry = new Exercise({
     username: findUser.username,
     description: userDescr,
@@ -114,12 +117,18 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
     date: formattedDate,
     userId: userId
   })
+
+  // save the doc
   await entry.save()
   
-  res.json(entry)
-
-// res.json object med user object där exercisefield är tillagt
-
+  // return required as JSON
+  res.json({
+    username: entry.username,
+    description: entry.description,
+    duration: entry.duration,
+    date: entry.date,
+    _id: userId
+  })
 })
 
 // create get routs
