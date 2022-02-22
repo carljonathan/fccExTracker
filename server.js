@@ -34,21 +34,6 @@ const exerciseSchema = new Schema({
 const User = mongoose.model('User', userSchema)
 const Exercise = mongoose.model('Exercise', exerciseSchema)
 
-/*
-Log res.json structure:
-{
-  username: "fcc_test",
-  count: 1,
-  _id: "5fb5853f734231456ccb3b05",
-  log: [{
-    description: "test",
-    duration: 60,
-    date: "Mon Jan 01 1990",
-  }]
-}
-
-*/
-
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html')
 });
@@ -153,6 +138,20 @@ app.get('/api/users', async (req, res) => {
 })
 
 // GET /api/users/:_id/logs
+app.get('/api/users/:_id/logs', async (req, res) => {
+  // get all url parameters
+  const userId = req.params._id
+  const reqFrom = req.params.from
+  const reqTo = req.params.to
+  const reqLimit = req.params.limit
+
+  // find the user document
+  const user = await User.findOne({ _id: userId }) // is needed?
+  // find all 
+  const logs = await Exercise.find({ userId: userId })
+
+  console.log(`user: ${user}, logs ${logs}`)
+})
 // res.json svar med alla träningspass för användaren, med count som visar antalet träningspass registrerade för användaren
 // i json svaret ska en array finnas med, i vilken varje index ska vara ett object för varje träningspass som är tillagt för användaren
 // detta object ska ha samma struktur som POST /api/users/:_id/exercises
@@ -163,7 +162,19 @@ app.get('/api/users', async (req, res) => {
 // from och to är datum med format yyyy-mm-dd
 // limit är int -> antalet loggar som ska returneras
 
-
+/*
+Log res.json structure:
+{
+  username: "fcc_test",
+  count: 1,
+  _id: "5fb5853f734231456ccb3b05",
+  log: [{
+    description: "test",
+    duration: 60,
+    date: "Mon Jan 01 1990",
+  }]
+}
+*/
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
