@@ -169,7 +169,7 @@ app.get('/api/users/:_id/logs', async (req, res) => {
     resLogs.push(result)
   }
 
-  console.log(`array: ${resLogs}`)
+  res.send(resLogs)
 })
 // res.json svar med alla träningspass för användaren, med count som visar antalet träningspass registrerade för användaren
 // i json svaret ska en array finnas med, i vilken varje index ska vara ett object för varje träningspass som är tillagt för användaren
