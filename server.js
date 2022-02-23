@@ -152,7 +152,7 @@ app.get('/api/users/:_id/logs', async (req, res) => {
   const logs = await Exercise.find({ userId: userId })
 
   // arrange constructor
-  function Log(description, duration, date) {
+  function Log (description, duration, date) {
     this.description = description;
     this.duration = duration;
     this.date = date;
@@ -164,7 +164,7 @@ app.get('/api/users/:_id/logs', async (req, res) => {
   // iterate logs
   for (let i = 0; i < logs.length; i++) {
     // create new object with needed data
-    const result = new Log(logs.description, logs.duration, logs.date)
+    const result = new Log(logs[i].description, logs[i].duration, logs[i].date)
     // push new object to array
     resLogs.push(result)
   }
