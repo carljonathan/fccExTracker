@@ -147,10 +147,29 @@ app.get('/api/users/:_id/logs', async (req, res) => {
 
   // find the user document
   const user = await User.findOne({ _id: userId }) // is needed?
-  // find all 
+
+  // find all exercises for user in question
   const logs = await Exercise.find({ userId: userId })
 
-  console.log(`user: ${user}, logs ${logs}`)
+  // arrange constructor
+  function Log(description, duration, date) {
+    this.description = description;
+    this.duration = duration;
+    this.date = date;
+  }
+
+  // empty array
+  const resLogs = []
+
+  // iterate logs
+  for (let i = 0; i < logs.length; i++) {
+    // create new object with needed data
+    const result = new Log(logs.description, logs.duration, logs.date)
+    // push new object to array
+    resLogs.push(result)
+  }
+
+  console.log(`array: ${resLogs}`)
 })
 // res.json svar med alla träningspass för användaren, med count som visar antalet träningspass registrerade för användaren
 // i json svaret ska en array finnas med, i vilken varje index ska vara ett object för varje träningspass som är tillagt för användaren
