@@ -90,23 +90,25 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
 
   // create date object
   const newDate = new Date(userDate)
+
+  // format date as date string, per requirement
+  const formattedDate = newDate.toDateString()
   
   // create new doc with values
   const entry = new Exercise({
     username: findUser.username,
     description: userDescr,
     duration: duration,
-    date: newDate.toISOString().split('T')[0], // format date as yyyy-mm-dd
+    date: newDate,
     userId: userId
   })
 
   // save the doc
   await entry.save()
+
+  // log for checking purposes
   console.log(entry)
 
-  // format date as date string
-  const formattedDate = newDate.toDateString()
-  
   // return required as JSON
   res.json({
     username: entry.username,
@@ -142,7 +144,7 @@ app.get('/api/users', async (req, res) => {
 app.get('/api/users/:_id/logs', async (req, res) => {
   // get all url parameters
   const userId = req.params._id
-  const reqFrom = req.params.from
+  const reqFrom = new Date(req.params.from)
   const reqTo = req.params.to
   const reqLimit = req.params.limit
 
