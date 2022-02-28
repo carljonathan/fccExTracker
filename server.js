@@ -102,13 +102,16 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
 
   // save the doc
   await entry.save()
+
+  // format date as date string
+  const formattedDate = newDate.toDateString()
   
   // return required as JSON
   res.json({
     username: entry.username,
     description: entry.description,
     duration: entry.duration,
-    date: entry.date.toDateString(), // format date as date string
+    date: formattedDate,
     _id: userId
   })
 })
