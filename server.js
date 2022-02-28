@@ -102,6 +102,7 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
 
   // save the doc
   await entry.save()
+  console.log(entry)
 
   // format date as date string
   const formattedDate = newDate.toDateString()
