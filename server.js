@@ -152,7 +152,8 @@ app.get('/api/users/:_id/logs', async (req, res) => {
   const user = await User.findOne({ _id: userId }) // is needed?
 
   // find all exercises for user in question
-  const logs = await Exercise.find({ userId: userId, date: { $gte: reqFrom } })
+  const logs = await Exercise.find({ userId: userId })
+  console.log(typeof logs)
 
   // arrange constructor
   function Log (description, duration, date) {
