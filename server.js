@@ -90,16 +90,13 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
 
   // create date object
   const newDate = new Date(userDate)
-
-  // format user date to readable format
-  const formattedDate = newDate.toDateString()
   
   // create new doc with values
   const entry = new Exercise({
     username: findUser.username,
     description: userDescr,
     duration: duration,
-    date: formattedDate,
+    date: newDate.toISOString().split('T')[0], // format date as yyyy-mm-dd
     userId: userId
   })
 
@@ -111,7 +108,7 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
     username: entry.username,
     description: entry.description,
     duration: entry.duration,
-    date: entry.date,
+    date: entry.date.toDateString(), // format date as date string
     _id: userId
   })
 })
