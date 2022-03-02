@@ -4,6 +4,7 @@ const cors = require('cors')
 const app = express()
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const { receiveMessageOnPort } = require('worker_threads')
 
 // connect to mongoDB
 mongoose.connect(process.env.MONGO_URI)
@@ -144,16 +145,15 @@ app.get('/api/users', async (req, res) => {
 app.get('/api/users/:_id/logs', async (req, res) => {
   // get all url parameters
   const userId = req.params._id
-  const reqFrom = new Date(req.params.from)
-  const reqTo = req.params.to
-  const reqLimit = req.params.limit
+  const reqFrom = req.params.from ? new Date(req.params.from) : 0
+  const reqTo = req.params.to ? new Date(req.params.to) : new Date(new Date().setFullYear(new Date().getFullYear() + 10000))
+  const reqLimit = req.params.limit ? req.params.limit : 0
 
   // find the user document
   const user = await User.findOne({ _id: userId }) // is needed?
 
   // find all exercises for user in question
-  const logs = await Exercise.find({ userId: userId })
-  console.log(typeof logs)
+  const logs = await Exercise.find({ userId: userId, date: { $gte: reqFrom, $lte: reqTo } }).limit(reqLimit)
 
   // arrange constructor
   function Log (description, duration, date) {
