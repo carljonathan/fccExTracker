@@ -145,9 +145,9 @@ app.get('/api/users', async (req, res) => {
 app.get('/api/users/:_id/logs', async (req, res) => {
   // get all url parameters
   const userId = req.params._id
-  const reqFrom = req.params.from ? new Date(req.params.from) : 0
-  const reqTo = req.params.to ? new Date(req.params.to) : new Date(new Date().setFullYear(new Date().getFullYear() + 10000))
-  const reqLimit = req.params.limit ? req.params.limit : 0
+  const reqFrom = req.query.from ? new Date(req.params.from) : 0
+  const reqTo = req.query.to ? new Date(req.params.to) : new Date(new Date().setFullYear(new Date().getFullYear() + 10000))
+  const reqLimit = req.query.limit ? req.params.limit : 0
 
   console.log(`from: ${req.params.from} / ${reqFrom}, to: ${reqTo}, limit: ${reqLimit}`)
 
