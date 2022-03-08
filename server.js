@@ -180,6 +180,7 @@ app.get('/api/users/:_id/logs', async (req, res) => {
   res.json({
     username: user.username,
     count: count,
+    _id: userId,
     log: resLogs
   })
 })
