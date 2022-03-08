@@ -149,7 +149,7 @@ app.get('/api/users/:_id/logs', async (req, res) => {
   const reqTo = req.query.to ? new Date(req.query.to) : new Date(new Date().setFullYear(new Date().getFullYear() + 10000))
   const reqLimit = req.query.limit ? req.query.limit : 0
 
-  console.log(`from: ${req.params.from} / ${reqFrom}, to: ${reqTo}, limit: ${reqLimit}`)
+  console.log(`from: ${req.query.from} / ${reqFrom}, to: ${reqTo}, limit: ${reqLimit}`)
 
   // find the user document
   const user = await User.findOne({ _id: userId }) // is needed?
@@ -161,11 +161,12 @@ app.get('/api/users/:_id/logs', async (req, res) => {
   function Log (description, duration, date) {
     this.description = description;
     this.duration = duration;
-    this.date = date;
+    this.date = date.toDateString();
   }
 
   // empty array
   const resLogs = []
+  let count = 0
 
   // iterate logs
   for (let i = 0; i < logs.length; i++) {
@@ -173,9 +174,14 @@ app.get('/api/users/:_id/logs', async (req, res) => {
     const result = new Log(logs[i].description, logs[i].duration, logs[i].date)
     // push new object to array
     resLogs.push(result)
+    count++
   }
 
-  res.send(resLogs)
+  res.json({
+    username: user.username,
+    count: count,
+    log: resLogs
+  })
 })
 // res.json svar med alla träningspass för användaren, med count som visar antalet träningspass registrerade för användaren
 // i json svaret ska en array finnas med, i vilken varje index ska vara ett object för varje träningspass som är tillagt för användaren
