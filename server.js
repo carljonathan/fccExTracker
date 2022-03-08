@@ -161,7 +161,7 @@ app.get('/api/users/:_id/logs', async (req, res) => {
   function Log (description, duration, date) {
     this.description = description;
     this.duration = duration;
-    this.date = date.toDateString();
+    this.date = date;
   }
 
   // empty array
@@ -171,7 +171,7 @@ app.get('/api/users/:_id/logs', async (req, res) => {
   // iterate logs
   for (let i = 0; i < logs.length; i++) {
     // create new object with needed data
-    const result = new Log(logs[i].description, logs[i].duration, logs[i].date)
+    const result = new Log(logs[i].description, logs[i].duration, new Date(logs[i].date))
     // push new object to array
     resLogs.push(result)
     count++
