@@ -149,6 +149,8 @@ app.get('/api/users/:_id/logs', async (req, res) => {
   const reqTo = req.query.to ? new Date(req.query.to) : new Date(new Date().setFullYear(new Date().getFullYear() + 10000))
   const reqLimit = req.query.limit ? req.query.limit : 0
 
+  console.log(`from: ${req.query.from} / ${reqFrom}, to: ${req.query.to} / ${reqTo}, limit: ${req.query.limit} / ${reqLimit}`)
+
   // find the user document
   const user = await User.findOne({ _id: userId }) // is needed?
 
