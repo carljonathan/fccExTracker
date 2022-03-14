@@ -108,7 +108,7 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
   await entry.save()
 
   // log for checking purposes
-  console.log(entry)
+  console.log(`formattedDate: ${formattedDate}, newDate: ${newDate}`)
 
   // return required as JSON
   res.json({
