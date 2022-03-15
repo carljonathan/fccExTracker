@@ -92,6 +92,9 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
 
   // create date object
   const newDate = new Date(userDate)
+  newDate.setHours(00)
+  newDate.setMinutes(00)
+  newDate.setSeconds(00)
 
   // format date as date string, per requirement
   const formattedDate = newDate.toDateString()
