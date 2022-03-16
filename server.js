@@ -84,7 +84,6 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
     console.error('workout description must be a string and workout duration must be a number.')
   }
 
-  console.log(`userDate: ${userDate}`)
   // check if date is not entered and assign todays date if so
   if (userDate === '') {
     userDate = Date.now()
@@ -109,11 +108,7 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
   })
 
   // save the doc
-  const test = await entry.save()
-  console.log(`test save: ${test}`)
-
-  // log for checking purposes
-  console.log(`formattedDate: ${formattedDate}, newDate: ${newDate}}`)
+  await entry.save()
 
   // return required as JSON
   res.json({
@@ -183,9 +178,9 @@ app.get('/api/users/:_id/logs', async (req, res) => {
   }
 
   res.json({
+    _id: userId,
     username: user.username,
     count: count,
-    _id: userId,
     log: resLogs
   })
 })
