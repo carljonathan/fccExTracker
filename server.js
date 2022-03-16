@@ -109,7 +109,8 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
   })
 
   // save the doc
-  await entry.save()
+  const test = await entry.save()
+  console.log(`test save: ${test}`)
 
   // log for checking purposes
   console.log(`formattedDate: ${formattedDate}, newDate: ${newDate}}`)
