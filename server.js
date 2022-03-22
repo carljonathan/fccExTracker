@@ -90,7 +90,10 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
   }
 
   // create date object
-  const newDate = new Date(userDate)
+  let newDate = new Date(userDate)
+  if (isNaN(newDate)) {
+    newDate = new Date(Date())
+  }
   newDate.setHours(00)
   newDate.setMinutes(00)
   newDate.setSeconds(00)
