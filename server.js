@@ -91,6 +91,7 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
 
   // create date object
   let newDate = new Date(userDate)
+  // make sure user date is valid, else set as today
   if (isNaN(newDate)) {
     newDate = new Date(Date())
   }
@@ -158,7 +159,7 @@ app.get('/api/users/:_id/logs', async (req, res) => {
   const user = await User.findOne({ _id: userId }) // is needed?
 
   // find all exercises for user in question
-  const logs = await Exercise.find({ userId: userId })//, date: { $gte: reqFrom, $lte: reqTo } }).limit(reqLimit)
+  const logs = await Exercise.find({ userId: userId, date: { $gte: reqFrom, $lte: reqTo } }).limit(reqLimit)
 
   // arrange constructor
   function Log (description, duration, date) {
