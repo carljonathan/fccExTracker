@@ -176,9 +176,12 @@ app.get('/api/users/:_id/logs', async (req, res) => {
   for (let i = 0; i < logs.length; i++) {
     // create new object with needed data
     const result = new Log(logs[i].description, logs[i].duration, new Date(logs[i].date))
-    // push new object to array
-    resLogs.push(result)
-    count++
+    
+    if (result.date >= reqFrom && result.date <= reqTo) {
+      // push new object to array
+      resLogs.push(result)
+      count++
+    }
   }
 
   res.json({
