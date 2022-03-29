@@ -165,7 +165,7 @@ app.get('/api/users/:_id/logs', async (req, res) => {
   function Log (description, duration, date) {
     this.description = description;
     this.duration = duration;
-    this.date = date.toDateString();
+    this.date = date;
   }
 
   // empty array
