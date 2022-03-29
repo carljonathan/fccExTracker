@@ -151,7 +151,7 @@ app.get('/api/users/:_id/logs', async (req, res) => {
   const userId = req.params._id
   const reqFrom = req.query.from ? new Date(req.query.from) : 0
   const reqTo = req.query.to ? new Date(req.query.to) : new Date(new Date().setFullYear(new Date().getFullYear() + 10000))
-  const reqLimit = req.query.limit
+  const reqLimit = req.query.limit ? req.query.limit : 'no limit'
 
   console.log(`from: ${req.query.from} / ${reqFrom}, to: ${req.query.to} / ${reqTo}, limit: ${req.query.limit} / ${reqLimit}`)
 
