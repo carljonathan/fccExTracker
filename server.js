@@ -72,7 +72,6 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
   let duration = req.body.duration
   let userDate = req.body.date // optional, set to current date if not submitted
 
-  
   // get username
   const findUser = await User.findOne({ _id: userId })
 
@@ -95,6 +94,8 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
   if (isNaN(newDate)) {
     newDate = new Date(Date())
   }
+
+  // set date time to midnight
   newDate.setHours(00)
   newDate.setMinutes(00)
   newDate.setSeconds(00)
@@ -153,40 +154,47 @@ app.get('/api/users/:_id/logs', async (req, res) => {
   const reqTo = req.query.to ? new Date(req.query.to) : new Date(new Date().setFullYear(new Date().getFullYear() + 10000))
   const reqLimit = req.query.limit
 
-  console.log(`from: ${req.query.from} / ${reqFrom}, to: ${req.query.to} / ${reqTo}, limit: ${req.query.limit} / ${reqLimit}`)
-
   // find the user document
-  const user = await User.findOne({ _id: userId }) // is needed?
+  const user = await User.findOne({ _id: userId })
 
   // find all exercises for user in question
-  const logs = await Exercise.find({ userId: userId })//, date: { $gte: reqFrom, $lte: reqTo } }).limit(reqLimit)
+  const logs = await Exercise.find({ userId: userId })
 
-  // arrange constructor
+  // arrange constructor to hold exercise log properties
   function Log (description, duration, date) {
     this.description = description;
     this.duration = duration;
     this.date = date;
   }
 
-  // empty array
+  // array to hold logs as per requirements
   const resLogs = []
+  
+  // counter
   let count = 0
 
-  // iterate logs
+  // iterate exercies
   for (let i = 0; i < logs.length; i++) {
     // create new object with needed data
     const result = new Log(logs[i].description, logs[i].duration, new Date(logs[i].date))
 
+    // make sure limit is taken into account
     if (!reqLimit || count < reqLimit) {
+
+      // make sure from and to is taken into account
       if (result.date >= reqFrom && result.date <= reqTo) {
+
+        // format date as per requirement before pushing to resLogs array
         result.date = result.date.toDateString()
-        // push new object to array
+
+        // push new object to array and increment counter
         resLogs.push(result)
         count++
       }
     }
   }
 
+  // return JSON as required
   res.json({
     _id: userId,
     username: user.username,
@@ -194,29 +202,6 @@ app.get('/api/users/:_id/logs', async (req, res) => {
     log: resLogs
   })
 })
-// res.json svar med alla träningspass för användaren, med count som visar antalet träningspass registrerade för användaren
-// i json svaret ska en array finnas med, i vilken varje index ska vara ett object för varje träningspass som är tillagt för användaren
-// detta object ska ha samma struktur som POST /api/users/:_id/exercises
-// description ska vara en string
-// duration ska vara ett nummer
-// date ska vara en string formaterad som toDateString
-// man ska kunna lägga till from, to och limit parametrar till anropet i url:en för att begärnsa svaret.
-// from och to är datum med format yyyy-mm-dd
-// limit är int -> antalet loggar som ska returneras
-
-/*
-Log res.json structure:
-{
-  username: "fcc_test",
-  count: 1,
-  _id: "5fb5853f734231456ccb3b05",
-  log: [{
-    description: "test",
-    duration: 60,
-    date: "Mon Jan 01 1990",
-  }]
-}
-*/
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
