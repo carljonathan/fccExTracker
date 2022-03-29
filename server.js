@@ -179,6 +179,7 @@ app.get('/api/users/:_id/logs', async (req, res) => {
 
     if (!reqLimit || count < reqLimit) {
       if (result.date >= reqFrom && result.date <= reqTo) {
+        result.date = result.date.toDateString()
         // push new object to array
         resLogs.push(result)
         count++
