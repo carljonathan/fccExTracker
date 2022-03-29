@@ -151,7 +151,7 @@ app.get('/api/users/:_id/logs', async (req, res) => {
   const userId = req.params._id
   const reqFrom = req.query.from ? new Date(req.query.from) : 0
   const reqTo = req.query.to ? new Date(req.query.to) : new Date(new Date().setFullYear(new Date().getFullYear() + 10000))
-  const reqLimit = req.query.limit ? req.query.limit : 'no limit'
+  const reqLimit = req.query.limit
 
   console.log(`from: ${req.query.from} / ${reqFrom}, to: ${req.query.to} / ${reqTo}, limit: ${req.query.limit} / ${reqLimit}`)
 
@@ -177,7 +177,7 @@ app.get('/api/users/:_id/logs', async (req, res) => {
     // create new object with needed data
     const result = new Log(logs[i].description, logs[i].duration, new Date(logs[i].date))
     
-    if (result.date >= reqFrom && result.date <= reqTo && !isNaN(reqLimit) && count < reqLimit) {
+    if (result.date >= reqFrom && result.date <= reqTo && reqLimit !== undefined && count < reqLimit) {
       // push new object to array
       resLogs.push(result)
       count++
